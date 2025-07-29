@@ -38,6 +38,8 @@ $ npm install
 $ npm run start
 $ npm run start:dev
 
+# swagger
+[text](http://localhost:4000/api)
 
 
 ## Support

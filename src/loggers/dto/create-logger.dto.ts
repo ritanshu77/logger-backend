@@ -58,17 +58,17 @@ export class findAllDto {
     @ApiProperty({ description: 'filter by commit', required: false })
     commit?: string;
 
-    @ApiProperty({description: 'Start date for filtering (YYYY-MM-DD)', example: '2023-09-01',required: false })
+    @ApiProperty({description: 'Start date for filtering (YYYY-MM-DD)', required: false })
     @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'startDate must be in YYYY-MM-DD format',})
      @IsOptional()
     startDate?: string;
 
-    @ApiProperty({ description: 'End date for filtering (YYYY-MM-DD)', example: '2023-09-30', required: false })
+    @ApiProperty({ description: 'End date for filtering (YYYY-MM-DD)', required: false })
     @Matches(/^\d{4}-\d{2}-\d{2}$/, {message: 'endDate must be in YYYY-MM-DD format',})
      @IsOptional()
     endDate?: string;
 
-    @ApiProperty({description:"Search any"})
+    @ApiProperty({description:"Search any",required: false })
     @IsOptional()
     searchText?:string
 }

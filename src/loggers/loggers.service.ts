@@ -43,6 +43,7 @@ export class LoggersService {
       let log: any[] = [];
       if (fs.existsSync(this.filepath)) {
         const filecontent = fs.readFileSync(this.filepath, 'utf-8');
+        
         if (!filecontent) {
           return {
             page: 1,
@@ -72,33 +73,37 @@ export class LoggersService {
               &&(!query.searchText || item.message.toLowerCase().includes(query.searchText.toLowerCase()) || item.resourceId.toLowerCase().includes(query.searchText.toLowerCase()) || item.traceId.toLowerCase().includes(query.searchText.toLowerCase()) || item.spanId.toLowerCase().includes(query.searchText.toLowerCase()) || item.commit.toLowerCase().includes(query.searchText.toLowerCase()))
             );
           });
-
           const sortField = query?.sort || 'timestamp';
           const order = query?.order?.toUpperCase() || 'DESC';
-
+          
           log.sort((a, b) => {
             if (!a[sortField] || !b[sortField]) return 0;
             if (order === 'ASC') return a[sortField] > b[sortField] ? 1 : -1;
             else return a[sortField] < b[sortField] ? 1 : -1;
           });
 
+          
+
           log = log.map((item, index) => ({
             ...item,
             no: index + 1
           }));
-
-          let page = Number(query.page) ?? 1;
-          let limit = Number(query.limit) ?? 10;
+  
+          let page = Number(query.page) || 1;
+          let limit = Number(query.limit) || 10;
+            
           let start = (page - 1) * limit;
           let end = start + limit;
-
+           
           let paginatedData = log.slice(start, end);
+           
           if (paginatedData.length == 0 && log.length > 0) {
             page = 1
             start = (page - 1) * limit;
             end = start + limit;
             paginatedData = log.slice(start, end);
           }
+          
           limit = paginatedData.length > limit ? limit : paginatedData.length;
           return {
             page,
@@ -111,6 +116,7 @@ export class LoggersService {
           throw new InternalServerErrorException(error.message);
         }
       }
+      
       return {
         page: 1,
         limit: 0,
